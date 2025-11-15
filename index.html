@@ -11,10 +11,22 @@
       <h1>Seesaw Simulation</h1>
 
       <div class="stats">
-        <div>Left Weight: <span id="left-weight">0 kg</span></div>
-        <div>Right Weight: <span id="right-weight">0 kg</span></div>
-        <div>Tilt Angle: <span id="angle-display">0°</span></div>
-        <div>Next Weight: <span id="next-weight">0 kg</span></div>
+        <div class="stat-box">
+          <span class="label">Left Weight: </span>
+          <span id="left-weight" class="value">0 kg</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">Right Weight: </span>
+          <span id="right-weight" class="value">0 kg</span>
+        </div>
+        <div class="stat-box next-weight-box">
+          <span class="label">Next Weight: </span>
+          <span id="next-weight" class="value">0 kg</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">Tilt Angle: </span>
+          <span id="angle-display" class="value">0°</span>
+        </div>
       </div>
 
       <div id="board" class="board">
