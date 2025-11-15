@@ -1,0 +1,14 @@
+.seesaw-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.board {
+  width: 400px;
+  height: 20px;
+  background-color: #8b4513;
+  position: relative;
+  margin: 100px auto 20px;
+  transition: transform 0.3s ease;
+  border-radius: 5px;
+}
