@@ -20,7 +20,6 @@ let isDragging = false;
 /**
  @returns {number}
 */
-
 function createRandomWeight() {
   return Math.floor(Math.random() * 10) + 1;
 }
@@ -37,13 +36,13 @@ function updateBalance() {
   let rightWeight = 0;
 
   for (const wgt of weights) {
-    const distanceFromPivot = wgt.x - PIVOT_X;
+    const distanceFromCenter = wgt.x - CENTER_X;
 
-    if (distanceFromPivot < 0) {
-      leftTorque += wgt.weight * Math.abs(distanceFromPivot);
+    if (distanceFromCenter < 0) {
+      leftTorque += wgt.weight * Math.abs(distanceFromCenter);
       leftWeight += wgt.weight;
     } else {
-      rightTorque += wgt.weight * distanceFromPivot;
+      rightTorque += wgt.weight * distanceFromCenter;
       rightWeight += wgt.weight;
     }
   }
@@ -52,7 +51,7 @@ function updateBalance() {
   let angle = netTorque / SENSITIVITY;
   angle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, angle));
 
-  plankElement.style.transform = `rotate(${angle}deg)`;
+  boardElement.style.transform = `rotate(${angle}deg)`;
 
   leftWeightElement.textContent = `${leftWeight.toFixed(1)} kg`;
   rightWeightElement.textContent = `${rightWeight.toFixed(1)} kg`;
@@ -65,16 +64,22 @@ function updateBalance() {
 
 function renderObject(obj) {
   const objElement = document.createElement("div");
-  objElement.className = "object-shape";
+  objElement.className = "weight-shape";
   objElement.dataset.id = obj.id;
   objElement.textContent = `${obj.weight}kg`;
   objElement.style.left = `${obj.x}px`;
   objElement.draggable = true;
+
+  objElement.addEventListener("dragstart", (e) =>
+    handleExistingWeightDrag(e, obj)
+  );
+  objElement.addEventListener("dragend", handleDragOver);
+
   boardElement.appendChild(objElement);
 }
 
 function renderAllObjects() {
-  const existingObjects = boardElement.querySelectorAll(".object-shape");
+  const existingObjects = boardElement.querySelectorAll(".weight-shape");
   existingObjects.forEach((obj) => obj.remove());
 
   for (const wgt of weights) {
@@ -136,3 +141,56 @@ function handleExistingWeightDrag(e, obj) {
   e.dataTransfer.setData("text/plain", obj.id.toString());
   e.dataTransfer.effectAllowed = "move";
 }
+
+/**
+@param {DragEvent} e
+*/
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+}
+
+/**
+@param {DragEvent} e
+*/
+function handleDrop(e) {
+  e.preventDefault();
+  isDragging = false;
+
+  const boardBounds = boardElement.getBoundingClientRect();
+  const cursorX = e.clientX - boardBounds.left;
+  const boardPositionX = Math.max(0, Math.min(BOARD_WIDTH, cursorX));
+
+  const objectId = parseInt(e.dataTransfer.getData("text/plain"), 10);
+
+  const movedObject = weights.find((obj) => obj.id === objectId);
+  if (movedObject) {
+    movedObject.x = boardPositionX;
+  }
+
+  saveCurrentState();
+  renderAllObjects();
+  updateBalance();
+}
+
+function handleResetClick() {
+  weights = [];
+  saveCurrentState();
+  renderAllObjects();
+  updateBalance();
+  updateNextWeightDisplay();
+}
+
+function init() {
+  boardElement.addEventListener("click", handleBoardClick);
+  boardElement.addEventListener("dragover", handleDragOver);
+  boardElement.addEventListener("drop", handleDrop);
+  resetButtonElement.addEventListener("click", handleResetClick);
+
+  updateNextWeightDisplay();
+  loadSavedState();
+  renderAllObjects();
+  updateBalance();
+}
+
+document.addEventListener("DOMContentLoaded", init);
