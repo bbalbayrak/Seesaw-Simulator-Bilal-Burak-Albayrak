@@ -15,12 +15,18 @@ let weights = [];
 let nextWeightValue = 0;
 let isDragging = false;
 
-function generateRandomWeight() {
+//MAIN FUNCTIONS
+
+/**
+ @returns {number}
+*/
+
+function createRandomWeight() {
   return Math.floor(Math.random() * 10) + 1;
 }
 
 function updateNextWeightDisplay() {
-  nextWeightValue = generateRandomWeight();
+  nextWeightValue = createRandomWeight();
   nextWeightElement.textContent = `${nextWeightValue} kg`;
 }
 
@@ -53,13 +59,80 @@ function updateBalance() {
   angleDisplayElement.textContent = `${angle.toFixed(1)}°`;
 }
 
+/**
+ @param {Object} obj 
+ */
+
 function renderObject(obj) {
   const objElement = document.createElement("div");
   objElement.className = "object-shape";
   objElement.dataset.id = obj.id;
-  objElement.style.left = `${obj.x}px`;
   objElement.textContent = `${obj.weight}kg`;
+  objElement.style.left = `${obj.x}px`;
   objElement.draggable = true;
-
   boardElement.appendChild(objElement);
+}
+
+function renderAllObjects() {
+  const existingObjects = boardElement.querySelectorAll(".object-shape");
+  existingObjects.forEach((obj) => obj.remove());
+
+  for (const wgt of weights) {
+    renderObject(wgt);
+  }
+}
+
+function saveCurrentState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(weights));
+}
+
+function loadSavedState() {
+  const savedState = localStorage.getItem(STORAGE_KEY);
+  if (savedState) {
+    weights = JSON.parse(savedState);
+  }
+}
+
+//EVENT HANDLERS
+
+/** 
+ @param {MouseEvent} e
+ */
+
+function handleBoardClick(e) {
+  if (isDragging) {
+    isDragging = false;
+    return;
+  }
+
+  if (e.target !== boardElement) {
+    return;
+  }
+
+  const boardBounds = boardElement.getBoundingClientRect();
+  const cursorX = e.clientX - boardBounds.left;
+  const boardPositionX = Math.max(0, Math.min(BOARD_WIDTH, cursorX));
+
+  const newObject = {
+    id: Date.now(),
+    x: boardPositionX,
+    weight: nextWeightValue,
+  };
+
+  weights.push(newObject);
+  saveCurrentState();
+  renderObject(newObject);
+  updateBalance();
+  updateNextWeightDisplay();
+}
+
+/**
+ @param {DragEvent} e
+ @param {Object} obj
+ */
+
+function handleExistingWeightDrag(e, obj) {
+  isDragging = true;
+  e.dataTransfer.setData("text/plain", obj.id.toString());
+  e.dataTransfer.effectAllowed = "move";
 }
