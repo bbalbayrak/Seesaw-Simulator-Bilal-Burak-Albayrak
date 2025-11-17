@@ -149,3 +149,50 @@ body {
   color: #e74c3c;
   font-weight: bold;
 }
+
+.weights-details {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.weights-details h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  text-align: center;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
+}
+
+.details-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.no-weights {
+  text-align: center;
+  color: #bdc3c7;
+  font-style: italic;
+  padding: 20px;
+}
+
+.main-ui {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.right-panel {
+  width: 300px;
+}

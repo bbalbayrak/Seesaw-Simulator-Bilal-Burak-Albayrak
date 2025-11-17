@@ -10,41 +10,54 @@
     <div class="seesaw-container">
       <h1>Seesaw Simulation</h1>
 
-      <div class="stats">
-        <div class="stat-box">
-          <div class="label">
-            Left Weight: <span id="left-weight" class="value">0 kg</span>
+      <div class="main-ui">
+        <div class="left-panel">
+          <div class="stats">
+            <div class="stat-box">
+              <div class="label">
+                Left Weight: <span id="left-weight" class="value">0 kg</span>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div class="label">
+                Right Weight: <span id="right-weight" class="value">0 kg</span>
+              </div>
+            </div>
+            <div class="stat-box next-weight-box">
+              <div class="label">
+                Next Weight: <span id="next-weight" class="value">0 kg</span>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div class="label">
+                Tilt Angle: <span id="angle-display" class="value">0°</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="stat-box">
-          <div class="label">
-            Right Weight: <span id="right-weight" class="value">0 kg</span>
+
+          <div id="board" class="board">
+            <div class="center"></div>
+            <div class="grid-positions">
+              <div class="position" style="left: 50px">-150</div>
+              <div class="position" style="left: 100px">-100</div>
+              <div class="position center-position" style="left: 200px">0</div>
+              <div class="position" style="left: 300px">100</div>
+              <div class="position" style="left: 350px">150</div>
+            </div>
           </div>
+
+          <button id="reset-button">Reset Seesaw</button>
         </div>
-        <div class="stat-box next-weight-box">
-          <div class="label">
-            Next Weight: <span id="next-weight" class="value">0 kg</span>
-          </div>
-        </div>
-        <div class="stat-box">
-          <div class="label">
-            Tilt Angle: <span id="angle-display" class="value">0°</span>
+
+        <div class="right-panel">
+          <div class="weights-details">
+            <h3>Weight Details</h3>
+            <div class="details-container" id="weights-details-container">
+              <div class="no-weights">No weights added</div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div id="board" class="board">
-        <div class="center"></div>
-        <div class="grid-positions">
-          <div class="position" style="left: 50px">-150</div>
-          <div class="position" style="left: 100px">-100</div>
-          <div class="position center-position" style="left: 200px">0</div>
-          <div class="position" style="left: 300px">100</div>
-          <div class="position" style="left: 350px">150</div>
-        </div>
-      </div>
-
-      <button id="reset-button">Reset Seesaw</button>
     </div>
     <script src="index.js"></script>
   </body>
