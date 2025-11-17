@@ -123,6 +123,17 @@ function renderObject(obj) {
   objElement.addEventListener("dragend", handleDragOver);
 
   boardElement.appendChild(objElement);
+
+  // Add bounce animation on render
+  setTimeout(() => {
+    objElement.classList.add("animated");
+    setTimeout(() => {
+      objElement.style.animation = "bounce 0.6s";
+      setTimeout(() => {
+        objElement.style.animation = "";
+      }, 600);
+    }, 500);
+  }, 10);
 }
 
 // Renders all weight objects on the board.
