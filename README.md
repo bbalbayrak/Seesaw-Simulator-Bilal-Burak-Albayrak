@@ -40,4 +40,6 @@ Actually, AI was used not to create the project, but to support the creation pro
 
 I really struggled with the CSS part, but after starting the JS part, I progressed more smoothly. However, getting the CSS part to the state I wanted was really challenging, but I managed it.
 
+Additionally, to make the weights added to the board appear with an animated effect, I tried to enhance the appearance by adding a small bounce animation using CSS keyframes.
+
 PROJECT LINK: https://bbalbayrak.github.io/Seesaw-Simulator-Bilal-Burak-Albayrak
