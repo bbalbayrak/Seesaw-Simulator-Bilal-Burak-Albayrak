@@ -196,3 +196,43 @@ body {
 .right-panel {
   width: 300px;
 }
+
+.weight-detail-item {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.weight-detail-item.left-side {
+  border-left-color: #e74c3c;
+}
+
+.weight-detail-item.right-side {
+  border-left-color: #2ecc71;
+}
+
+.weight-detail-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.weight-value {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1.1em;
+}
+
+.weight-position {
+  font-size: 0.9em;
+  color: #7f8c8d;
+}
+
+.weight-distance {
+  font-size: 0.85em;
+  color: #95a5a6;
+  font-style: italic;
+}

@@ -10,6 +10,9 @@ const rightWeightElement = document.getElementById("right-weight");
 const nextWeightElement = document.getElementById("next-weight");
 const angleDisplayElement = document.getElementById("angle-display");
 const resetButtonElement = document.getElementById("reset-button");
+const weightsDetailsContainer = document.getElementById(
+  "weights-details-container"
+);
 
 let weights = [];
 let nextWeightValue = 0;
@@ -27,6 +30,42 @@ function createRandomWeight() {
 function updateNextWeightDisplay() {
   nextWeightValue = createRandomWeight();
   nextWeightElement.textContent = `${nextWeightValue} kg`;
+}
+
+function updateWeightsDetails() {
+  weightsDetailsContainer.innerHTML = "";
+
+  if (weights.length === 0) {
+    weightsDetailsContainer.innerHTML =
+      '<div class="no-weights">No weights added</div>';
+    return;
+  }
+
+  weights.forEach((weight) => {
+    const distanceFromCenter = weight.x - CENTER_X;
+    const side = distanceFromCenter < 0 ? "left" : "right";
+    const distance = Math.abs(distanceFromCenter);
+
+    const detailItem = document.createElement("div");
+    detailItem.className = `weight-detail-item ${side}-side`;
+
+    detailItem.innerHTML = `
+      <div class="weight-detail-header">
+        <span class="weight-value">${weight.weight} kg</span>
+        <span class="weight-position">${
+          side === "left" ? "Left" : "Right"
+        } side</span>
+      </div>
+      <div class="weight-distance">
+        ${distance}px ${side === "left" ? "left" : "right"} of center
+      </div>
+      <div class="weight-distance">
+        Position: ${Math.round(weight.x)}px
+      </div>
+    `;
+
+    weightsDetailsContainer.appendChild(detailItem);
+  });
 }
 
 function updateBalance() {
@@ -56,6 +95,8 @@ function updateBalance() {
   leftWeightElement.textContent = `${leftWeight.toFixed(1)} kg`;
   rightWeightElement.textContent = `${rightWeight.toFixed(1)} kg`;
   angleDisplayElement.textContent = `${angle.toFixed(1)}°`;
+
+  updateWeightsDetails();
 }
 
 /**
