@@ -1,3 +1,4 @@
+//BLOCK LEVEL CONSTANTS AND VARIABLES
 const BOARD_WIDTH = 400;
 const CENTER_X = BOARD_WIDTH / 2;
 const MAX_ANGLE = 30;
@@ -22,16 +23,19 @@ let isDragging = false;
 
 /**
  @returns {number}
+ * Create a random weight between 1 and 10.
 */
 function createRandomWeight() {
   return Math.floor(Math.random() * 10) + 1;
 }
 
+// Update the 'Next Weight' display in the UI.
 function updateNextWeightDisplay() {
   nextWeightValue = createRandomWeight();
   nextWeightElement.textContent = `${nextWeightValue} kg`;
 }
 
+// Update the detailed weights display in the weights detail display panel.
 function updateWeightsDetails() {
   weightsDetailsContainer.innerHTML = "";
 
@@ -68,6 +72,7 @@ function updateWeightsDetails() {
   });
 }
 
+// Calculate torque/weights, update UI, and tilt the seesaw.
 function updateBalance() {
   let leftTorque = 0;
   let rightTorque = 0;
@@ -101,6 +106,7 @@ function updateBalance() {
 
 /**
  @param {Object} obj 
+ * Creates a single object, which is weight, DOM element and adds it to the board.
  */
 
 function renderObject(obj) {
@@ -119,6 +125,7 @@ function renderObject(obj) {
   boardElement.appendChild(objElement);
 }
 
+// Renders all weight objects on the board.
 function renderAllObjects() {
   const existingObjects = boardElement.querySelectorAll(".weight-shape");
   existingObjects.forEach((obj) => obj.remove());
@@ -128,10 +135,12 @@ function renderAllObjects() {
   }
 }
 
+// Save the current weights state to localStorage.
 function saveCurrentState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(weights));
 }
 
+// Load saved weights state from localStorage.
 function loadSavedState() {
   const savedState = localStorage.getItem(STORAGE_KEY);
   if (savedState) {
@@ -143,8 +152,8 @@ function loadSavedState() {
 
 /** 
  @param {MouseEvent} e
+ * Handles click events on the board to add new weights.
  */
-
 function handleBoardClick(e) {
   if (isDragging) {
     isDragging = false;
@@ -175,6 +184,7 @@ function handleBoardClick(e) {
 /**
  @param {DragEvent} e
  @param {Object} obj
+ * Handles drag start for existing weights.
  */
 
 function handleExistingWeightDrag(e, obj) {
@@ -185,6 +195,7 @@ function handleExistingWeightDrag(e, obj) {
 
 /**
 @param {DragEvent} e
+* Handles drag over events on the board.
 */
 function handleDragOver(e) {
   e.preventDefault();
@@ -193,6 +204,7 @@ function handleDragOver(e) {
 
 /**
 @param {DragEvent} e
+* Handles drop events on the board.
 */
 function handleDrop(e) {
   e.preventDefault();
@@ -221,6 +233,8 @@ function handleResetClick() {
   updateBalance();
   updateNextWeightDisplay();
 }
+
+//INITIALIZATION
 
 function init() {
   boardElement.addEventListener("click", handleBoardClick);
